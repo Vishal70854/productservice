@@ -18,48 +18,47 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.vishal.productservice.dtos.GenericProductDto;
 import dev.vishal.productservice.services.ProductService;
 
-@RestController 
+@RestController
 @RequestMapping("/products")
 public class ProductController {
-//  @Autowired
-		// 	field injection
+	// @Autowired
+	// field injection
 	private ProductService productService;
-	
-	// tells spring which implementation class to inject by mentioning @Qualalifier(className)
+
+	// tells spring which implementation class to inject by mentioning
+	// @Qualalifier(className)
 	// constructor injection
-//  @Autowired
+	// @Autowired
 	public ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
 		this.productService = productService;
 	}
-	
+
 	@GetMapping
 	public List<GenericProductDto> getAllProducts() {
-		return productService.getAllProducts(); 
+		return productService.getAllProducts();
 	}
-	
+
 	// localhost:8080/products/{id}
-    // localhost:8080/products/123
-	@GetMapping("/{id}")	// here id is a variable which will change based on user input
+	// localhost:8080/products/123
+	@GetMapping("/{id}") // here id is a variable which will change based on user input
 	public GenericProductDto getProductById(@PathVariable("id") long id) {
-		return productService.getProductById(id); 
-		
+		return productService.getProductById(id);
+
 	}
-	
+
 	@PostMapping()
 	public GenericProductDto createProduct(@RequestBody GenericProductDto product) {
 		return productService.createProduct(product);
-	} 
-	
+	}
+
 	@PutMapping("/{id}")
 	public GenericProductDto updateProductById(@PathVariable("id") Long id) {
 		return productService.updatePrductById(id);
-	} 
-	
-	@DeleteMapping("/{id}")
-	public boolean deleteProductById(@PathVariable("id") Long id) { 
-		return productService.deleteProductById(id); 
 	}
-	
-	
-	
+
+	@DeleteMapping("/{id}")
+	public boolean deleteProductById(@PathVariable("id") Long id) {
+		return productService.deleteProductById(id);
+	}
+
 }
