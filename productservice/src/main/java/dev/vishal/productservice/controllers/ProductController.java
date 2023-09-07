@@ -4,7 +4,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import dev.vishal.productservice.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,32 +37,37 @@ public class ProductController {
 		this.productService = productService;
 	}
 
-	@GetMapping
-	public List<GenericProductDto> getAllProducts() {
-		return productService.getAllProducts();
-	}
-
-	// localhost:8080/products/{id}
-	// localhost:8080/products/123
-	@GetMapping("/{id}") // here id is a variable which will change based on user input
-	public GenericProductDto getProductById(@PathVariable("id") long id) {
-		return productService.getProductById(id);
-
-	}
-
 	@PostMapping()
 	public GenericProductDto createProduct(@RequestBody GenericProductDto product) {
 		return productService.createProduct(product);
 	}
 
-	@PutMapping("/{id}")
-	public GenericProductDto updateProductById(@PathVariable("id") Long id) {
-		return productService.updatePrductById(id);
+	// localhost:8080/products/{id}
+	// localhost:8080/products/123
+	@GetMapping("/{id}") // here id is a variable which will change based on user input
+	public GenericProductDto getProductById(@PathVariable("id") long id) throws NotFoundException {
+		return productService.getProductById(id);
+
+	}
+
+	@GetMapping
+	public List<GenericProductDto> getAllProducts() {
+
+		return productService.getAllProducts();
 	}
 
 	@DeleteMapping("/{id}")
-	public boolean deleteProductById(@PathVariable("id") Long id) {
-		return productService.deleteProductById(id);
+	public ResponseEntity<GenericProductDto> deleteProductById(@PathVariable("id") Long id) {
+
+		return new ResponseEntity<>(
+				productService.deleteProductById(id),
+				HttpStatus.OK // status code which we can send manually
+		);
 	}
 
+	@PutMapping("/{id}")
+	public GenericProductDto updateProductById(@RequestBody GenericProductDto genericProductDto, @PathVariable("id") Long id) {
+
+		return productService.updatePrductById(genericProductDto,id);
+	}
 }
