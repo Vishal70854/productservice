@@ -8,13 +8,11 @@ import dev.vishal.productservice.dtos.GenericProductDto;
 
 @Service("selfProductServiceImpl") //it tells spring that this is service class with business logic
 public class SelfProductServiceImpl implements ProductService {
-	
 	@Override
-	public List<GenericProductDto> getAllProducts() {
+	public GenericProductDto createProduct(GenericProductDto product) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public GenericProductDto getProductById(Long id) {
@@ -23,24 +21,26 @@ public class SelfProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public GenericProductDto createProduct(GenericProductDto product) {
+	public List<GenericProductDto> getAllProducts() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GenericProductDto updatePrductById(Long id) {
+	public GenericProductDto deleteProductById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+
+	}
+
+	@Override
+	public GenericProductDto updatePrductById(GenericProductDto genericProductDto, Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-	@Override
-	public boolean deleteProductById(Long id) {
-		// TODO Auto-generated method stub
-		return true;
-		
-	}
+
 
 	
 }
