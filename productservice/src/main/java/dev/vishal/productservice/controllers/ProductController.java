@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.vishal.productservice.dtos.GenericProductDto;
 import dev.vishal.productservice.services.ProductService;
 
-@RestController
+@RestController // this annotation means this class will handle all HTTP request/responses
 @RequestMapping("/products")
 public class ProductController {
 	// @Autowired
@@ -33,7 +33,7 @@ public class ProductController {
 	// @Qualalifier(className)
 	// constructor injection
 	// @Autowired
-	public ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
+	public ProductController(ProductService productService) {
 		this.productService = productService;
 	}
 
