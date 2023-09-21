@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import dev.vishal.productservice.thirdpartyclients.productservice.fakestore.FakeStoreProductDto;
 import dev.vishal.productservice.dtos.GenericProductDto;
-@Primary	//@primary means spring will look for this class when searching for business logic
+//@Primary	//@primary means spring will look for this class when searching for business logic
 @Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService{
 	private FakeStoreProductServiceClient fakeStoreProductServiceClient;

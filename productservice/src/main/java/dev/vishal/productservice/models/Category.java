@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -17,7 +19,9 @@ import java.util.List;
 public class Category extends BaseModel{
 	private String name;
 
-	@OneToMany(fetch = jakarta.persistence.FetchType.EAGER, mappedBy = "category")
+	// eager will fetch the category and products details also, lazy will only get category details
+	@OneToMany(mappedBy = "category")
+	@Fetch(FetchMode.SELECT)
 	private List<Product> products;
 	// this is the same relation being mapped by category relation in other (Product) class
 }

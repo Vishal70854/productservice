@@ -4,7 +4,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import dev.vishal.productservice.dtos.CategoryDto;
+import dev.vishal.productservice.dtos.ProductDto;
 import dev.vishal.productservice.exceptions.NotFoundException;
+import dev.vishal.productservice.models.Category;
+import dev.vishal.productservice.services.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -27,47 +31,60 @@ import dev.vishal.productservice.services.ProductService;
 public class ProductController {
 	// @Autowired
 	// field injection
-	private ProductService productService;
+	private ProductServiceImpl productServiceImpl;
 
 	// tells spring which implementation class to inject by mentioning
 	// @Qualalifier(className)
 	// constructor injection
 	// @Autowired
-	public ProductController(ProductService productService) {
-		this.productService = productService;
+	public ProductController(ProductServiceImpl productServiceImpl) {
+
+		this.productServiceImpl = productServiceImpl;
 	}
 
 	@PostMapping()
 	public GenericProductDto createProduct(@RequestBody GenericProductDto product) {
-		return productService.createProduct(product);
+		return productServiceImpl.createProduct(product);
 	}
 
 	// localhost:8080/products/{id}
 	// localhost:8080/products/123
 	@GetMapping("/{id}") // here id is a variable which will change based on user input
-	public GenericProductDto getProductById(@PathVariable("id") long id) throws NotFoundException {
-		return productService.getProductById(id);
+	public GenericProductDto getProductById(@PathVariable("id") UUID id) throws NotFoundException {
+		return productServiceImpl.getProductById(id);
 
 	}
 
-	@GetMapping
+	@GetMapping()
 	public List<GenericProductDto> getAllProducts() {
 
-		return productService.getAllProducts();
+		return productServiceImpl.getAllProducts();
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<GenericProductDto> deleteProductById(@PathVariable("id") Long id) {
+	public ResponseEntity<GenericProductDto> deleteProductById(@PathVariable("id") UUID id) {
 
 		return new ResponseEntity<>(
-				productService.deleteProductById(id),
+				productServiceImpl.deleteProductById(id),
 				HttpStatus.OK // status code which we can send manually
 		);
 	}
 
 	@PutMapping("/{id}")
-	public GenericProductDto updateProductById(@RequestBody GenericProductDto genericProductDto, @PathVariable("id") Long id) {
+	public GenericProductDto updateProductById(@RequestBody GenericProductDto genericProductDto, @PathVariable("id") UUID id) {
 
-		return productService.updatePrductById(genericProductDto,id);
+		return productServiceImpl.updatePrductById(genericProductDto,id);
 	}
+
+	@GetMapping("/categories/{uuid}")
+	public List<ProductDto> getCategoryById(@PathVariable("uuid") String uuid){
+		return productServiceImpl.getCategoryById(uuid);
+	}
+
+	// get all categories
+	@GetMapping("/categories")
+	public List<String> getAllCategories(){
+		return productServiceImpl.getAllCategories();
+	}
+
 }
