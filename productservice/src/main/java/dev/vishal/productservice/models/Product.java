@@ -31,4 +31,6 @@ public class Product extends BaseModel{
     // and this will be done by hibernate automatically by mentioning cascade = {CascadeType.REMOVE}
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private Price price;
+
+    private int inventoryCount;
 }
