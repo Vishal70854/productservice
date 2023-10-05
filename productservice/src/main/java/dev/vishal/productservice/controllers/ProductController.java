@@ -1,5 +1,6 @@
 package dev.vishal.productservice.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -34,7 +35,7 @@ public class ProductController {
 	private ProductServiceImpl productServiceImpl;
 
 	// tells spring which implementation class to inject by mentioning
-	// @Qualalifier(className)
+	// @Qualifier(className)
 	// constructor injection
 	// @Autowired
 	public ProductController(ProductServiceImpl productServiceImpl) {
@@ -56,9 +57,29 @@ public class ProductController {
 	}
 
 	@GetMapping()
-	public List<GenericProductDto> getAllProducts() {
+	public ResponseEntity<List<GenericProductDto>> getAllProducts() {
 
-		return productServiceImpl.getAllProducts();
+		List<GenericProductDto> productDtos = productServiceImpl.getAllProducts();
+		if (productDtos.isEmpty()) {
+			return new ResponseEntity<>(
+					productDtos,
+					HttpStatus.NOT_FOUND
+			);
+		}
+
+		List<GenericProductDto> genericProductDtos = new ArrayList<>();
+
+		for (GenericProductDto gpd: productDtos) {
+			genericProductDtos.add(gpd);
+		};
+
+//        genericProductDtos.remove(genericProductDtos.get(0));
+
+		return new ResponseEntity<>(genericProductDtos, HttpStatus.OK);
+
+//        productDtos.get(0).setId(1001L);
+//
+//        return new ResponseEntity<>(productDtos, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
